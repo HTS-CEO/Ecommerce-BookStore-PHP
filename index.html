@@ -1,0 +1,1645 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>I AM KAZAK - Online Bookstore</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            color: #2c2c2c;
+            background: #fafaf9;
+            overflow-x: hidden;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotateY(0deg); }
+            50% { transform: translateY(-25px) rotateY(5deg); }
+        }
+
+        @keyframes pulse-glow {
+            0%, 100% { 
+                box-shadow: 0 25px 80px rgba(139, 115, 85, 0.2);
+                filter: brightness(1);
+            }
+            50% { 
+                box-shadow: 0 35px 100px rgba(139, 115, 85, 0.4);
+                filter: brightness(1.05);
+            }
+        }
+
+        @keyframes slide-up {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes scale-in {
+            from {
+                opacity: 0;
+                transform: scale(0.85);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes bounce-in {
+            0% {
+                opacity: 0;
+                transform: scale(0.3);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1.08);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes fade-in-left {
+            from {
+                opacity: 0;
+                transform: translateX(-80px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes glow-pulse {
+            0%, 100% {
+                text-shadow: 0 0 15px rgba(139, 115, 85, 0.4);
+            }
+            50% {
+                text-shadow: 0 0 35px rgba(139, 115, 85, 0.7);
+            }
+        }
+
+        @keyframes rotate-slow {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes slide-down {
+            from {
+                opacity: 0;
+                transform: translateY(-100%);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slide-in-modal {
+            from {
+                opacity: 0;
+                transform: scale(0.9) translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        @keyframes gradient-shift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        @keyframes shimmer {
+            0% { background-position: -1000px 0; }
+            100% { background-position: 1000px 0; }
+        }
+
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(15px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            animation: slide-down 0.6s ease-out;
+            border-bottom: 1px solid rgba(139, 115, 85, 0.1);
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1.25rem 3rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2rem;
+            font-weight: 700;
+            letter-spacing: 3px;
+            color: #1a1a1a;
+            text-decoration: none;
+            animation: bounce-in 0.8s ease-out;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: relative;
+            padding: 0.5rem 0;
+        }
+
+        .logo::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #8b7355, #d4af37);
+            transition: width 0.4s ease;
+        }
+
+        .logo:hover {
+            color: #8b7355;
+            transform: scale(1.05);
+        }
+
+        .logo:hover::after {
+            width: 100%;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.75rem;
+            color: #2c2c2c;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            padding: 0.5rem;
+        }
+
+        .mobile-menu-btn:hover {
+            color: #8b7355;
+            transform: scale(1.1);
+        }
+
+        nav {
+            display: flex;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        nav a, nav button {
+            text-decoration: none;
+            color: #2c2c2c;
+            font-size: 1rem;
+            font-weight: 500;
+            position: relative;
+            transition: all 0.3s ease;
+            background: none;
+            border: none;
+            cursor: pointer;
+            animation: fade-in-left 0.8s ease-out;
+            padding: 0.5rem 0;
+        }
+
+        nav a:nth-child(1), nav button:nth-child(1) { animation-delay: 0.1s; }
+        nav a:nth-child(2), nav button:nth-child(2) { animation-delay: 0.2s; }
+        nav a:nth-child(3), nav button:nth-child(3) { animation-delay: 0.3s; }
+
+        nav a::after, nav button::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #8b7355, #d4af37);
+            transition: width 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        nav a:hover, nav button:hover {
+            color: #8b7355;
+        }
+
+        nav a:hover::after, nav button:hover::after {
+            width: 100%;
+        }
+
+        .cart-header {
+            position: relative;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            animation: scale-in 0.6s ease-out 0.5s backwards;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            padding: 0.75rem;
+            border-radius: 50%;
+            background: rgba(139, 115, 85, 0.05);
+        }
+
+        .cart-header:hover {
+            transform: scale(1.15) rotate(8deg);
+            background: rgba(139, 115, 85, 0.15);
+        }
+
+        .cart-badge {
+            position: absolute;
+            top: -2px;
+            right: -2px;
+            background: linear-gradient(135deg, #8b7355, #d4af37);
+            color: white;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            font-weight: 700;
+            animation: bounce-in 0.6s ease-out 0.6s backwards;
+            box-shadow: 0 3px 10px rgba(139, 115, 85, 0.4);
+        }
+
+        main {
+            padding-top: 85px;
+        }
+
+        .hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            background: linear-gradient(135deg, #fafaf9 0%, #f5f1ed 50%, #faf7f3 100%);
+            background-size: 200% 200%;
+            animation: gradient-shift 15s ease infinite;
+        }
+
+        .hero-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background:
+                radial-gradient(circle at 20% 50%, rgba(139, 115, 85, 0.12) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(139, 115, 85, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 50% 20%, rgba(212, 175, 55, 0.06) 0%, transparent 50%);
+            animation: shift 25s ease-in-out infinite;
+            z-index: 1;
+        }
+
+        .hero-background video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.25;
+        }
+
+        @keyframes shift {
+            0%, 100% {
+                transform: translate(0, 0) scale(1);
+            }
+            50% {
+                transform: translate(-50px, -50px) scale(1.08);
+            }
+        }
+
+        .hero-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 3rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            align-items: center;
+            gap: 4rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .book-showcase {
+            display: flex;
+            justify-content: center;
+            perspective: 1500px;
+            animation: fade-in-left 1s ease-out 0.2s backwards;
+        }
+
+        .book-showcase-inner {
+            position: relative;
+            animation: float 5s ease-in-out infinite;
+        }
+
+        .book-cover {
+            width: 100%;
+            max-width: 380px;
+            aspect-ratio: 2/3;
+            border-radius: 16px;
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.2);
+            transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+            object-fit: cover;
+            animation: pulse-glow 4s ease-in-out infinite;
+            border: 3px solid rgba(255, 255, 255, 0.8);
+        }
+
+        .book-showcase:hover .book-cover {
+            transform: translateY(-20px) rotateY(8deg) scale(1.08);
+            box-shadow: 0 50px 120px rgba(139, 115, 85, 0.35);
+        }
+
+        .book-info {
+            animation: slide-up 1s ease-out 0.4s backwards;
+        }
+
+        .book-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(2.8rem, 7vw, 5rem);
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 1.25rem;
+            color: #1a1a1a;
+            letter-spacing: -2px;
+            animation: slide-up 1s ease-out 0.5s backwards;
+            background: linear-gradient(135deg, #1a1a1a 0%, #8b7355 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .book-tagline {
+            font-size: 1.3rem;
+            color: #8b7355;
+            font-weight: 400;
+            margin-bottom: 1.75rem;
+            line-height: 1.6;
+            font-family: 'Cormorant Garamond', serif;
+            animation: slide-up 1s ease-out 0.6s backwards;
+            font-style: italic;
+        }
+
+        .book-description {
+            font-size: 1rem;
+            color: #555;
+            line-height: 1.9;
+            margin-bottom: 1.25rem;
+            animation: slide-up 1s ease-out 0.7s backwards;
+        }
+
+        .book-price {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #8b7355;
+            margin-bottom: 2.25rem;
+            animation: slide-up 1s ease-out 0.75s backwards;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .book-price::before {
+            content: '';
+            width: 60px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #8b7355);
+        }
+
+        .button-group {
+            display: flex;
+            gap: 1.25rem;
+            animation: slide-up 1s ease-out 0.8s backwards;
+            flex-wrap: wrap;
+        }
+
+        .buy-button, .add-to-cart-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            padding: 1.25rem 3rem;
+            background: linear-gradient(135deg, #8b7355, #a68968);
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            border-radius: 50px;
+            border: 2px solid transparent;
+            cursor: pointer;
+            transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+            letter-spacing: 0.5px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(139, 115, 85, 0.3);
+        }
+
+        .buy-button::before, .add-to-cart-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s ease, height 0.6s ease;
+        }
+
+        .buy-button:hover, .add-to-cart-btn:hover {
+            background: transparent;
+            color: #8b7355;
+            border-color: #8b7355;
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(139, 115, 85, 0.4);
+        }
+
+        .buy-button:hover::before, .add-to-cart-btn::before:hover {
+            width: 300px;
+            height: 300px;
+        }
+
+        .accent-shapes {
+            position: absolute;
+            border: 2px solid rgba(139, 115, 85, 0.15);
+            border-radius: 50%;
+            animation: rotate-slow 20s linear infinite;
+        }
+
+        .accent-1 {
+            top: 8%;
+            right: 8%;
+            width: 180px;
+            height: 180px;
+            animation-duration: 25s;
+            animation-direction: reverse;
+            background: radial-gradient(circle, rgba(139, 115, 85, 0.03) 0%, transparent 70%);
+        }
+
+        .accent-2 {
+            bottom: 8%;
+            left: 5%;
+            width: 280px;
+            height: 280px;
+            animation-duration: 30s;
+            background: radial-gradient(circle, rgba(212, 175, 55, 0.03) 0%, transparent 70%);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.65);
+            backdrop-filter: blur(5px);
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 20px;
+            max-width: 600px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            animation: slide-in-modal 0.5s ease;
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.4);
+        }
+
+        .modal-content::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .modal-content::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+
+        .modal-content::-webkit-scrollbar-thumb {
+            background: #8b7355;
+            border-radius: 10px;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid #f0f0f0;
+            padding-bottom: 1.25rem;
+        }
+
+        .modal-header h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2rem;
+            color: #1a1a1a;
+            font-weight: 700;
+        }
+
+        .close-btn {
+            background: rgba(139, 115, 85, 0.1);
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #666;
+            transition: all 0.3s ease;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .close-btn:hover {
+            color: white;
+            background: #8b7355;
+            transform: rotate(90deg);
+        }
+
+        .form-group {
+            margin-bottom: 1.75rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.75rem;
+            font-weight: 600;
+            color: #2c2c2c;
+            font-size: 0.95rem;
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            font-family: 'Montserrat', sans-serif;
+            background: #fafafa;
+        }
+
+        .form-group input:focus, .form-group select:focus {
+            outline: none;
+            border-color: #8b7355;
+            box-shadow: 0 0 0 4px rgba(139, 115, 85, 0.1);
+            background: white;
+        }
+
+        .radio-group {
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .radio-option {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+        }
+
+        .radio-option input[type="radio"] {
+            width: auto;
+            accent-color: #8b7355;
+            cursor: pointer;
+        }
+
+        .payment-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .payment-option {
+            padding: 1.5rem 1rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            text-align: center;
+            font-weight: 600;
+            background: #fafafa;
+        }
+
+        .payment-option:hover {
+            border-color: #8b7355;
+            background: rgba(139, 115, 85, 0.05);
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(139, 115, 85, 0.15);
+        }
+
+        .payment-option.active {
+            border-color: #8b7355;
+            background: linear-gradient(135deg, #8b7355, #a68968);
+            color: white;
+            box-shadow: 0 10px 30px rgba(139, 115, 85, 0.3);
+        }
+
+        .payment-option i {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .cart-page {
+            display: none;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 3rem;
+            min-height: 80vh;
+        }
+
+        .cart-page.active {
+            display: block;
+        }
+
+        .cart-items {
+            display: grid;
+            gap: 1.75rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .cart-item {
+            display: grid;
+            grid-template-columns: 140px 1fr auto;
+            gap: 2rem;
+            align-items: center;
+            padding: 2rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 16px;
+            transition: all 0.4s ease;
+            background: white;
+        }
+
+        .cart-item:hover {
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+            border-color: #8b7355;
+            transform: translateY(-3px);
+        }
+
+        .cart-item-image {
+            width: 140px;
+            height: 180px;
+            border-radius: 10px;
+            object-fit: cover;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .cart-item-details h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.5rem;
+            margin-bottom: 0.75rem;
+            color: #1a1a1a;
+        }
+
+        .cart-item-details p {
+            color: #8b7355;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .cart-item-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            align-items: flex-end;
+        }
+
+        .quantity-control {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            background: #f5f5f5;
+            padding: 0.5rem;
+            border-radius: 30px;
+        }
+
+        .quantity-control button {
+            width: 36px;
+            height: 36px;
+            border: none;
+            background: white;
+            cursor: pointer;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            font-weight: 700;
+            color: #8b7355;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .quantity-control button:hover {
+            background: #8b7355;
+            color: white;
+            transform: scale(1.1);
+        }
+
+        .quantity-control span {
+            font-weight: 600;
+            min-width: 30px;
+            text-align: center;
+            font-size: 1.1rem;
+        }
+
+        .remove-btn {
+            background: linear-gradient(135deg, #ff4444, #cc0000);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(255, 68, 68, 0.3);
+        }
+
+        .remove-btn:hover {
+            background: linear-gradient(135deg, #cc0000, #990000);
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(255, 68, 68, 0.4);
+        }
+
+        .cart-summary {
+            background: linear-gradient(135deg, #f9f9f9, #f5f1ed);
+            padding: 2.5rem;
+            border-radius: 16px;
+            margin-bottom: 2.5rem;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            font-size: 1.05rem;
+            padding: 0.5rem 0;
+        }
+
+        .summary-row.total {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: #8b7355;
+            border-top: 2px solid #ddd;
+            padding-top: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .empty-cart {
+            text-align: center;
+            padding: 4rem 2rem;
+        }
+
+        .empty-cart i {
+            font-size: 5rem;
+            color: #ddd;
+            margin-bottom: 1.5rem;
+        }
+
+        .empty-cart p {
+            font-size: 1.3rem;
+            color: #999;
+            margin-bottom: 2rem;
+            font-family: 'Cormorant Garamond', serif;
+        }
+
+        .checkout-btn {
+            padding: 1.25rem 2.5rem;
+            background: linear-gradient(135deg, #8b7355, #a68968);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 0 8px 25px rgba(139, 115, 85, 0.3);
+            letter-spacing: 0.5px;
+        }
+
+        .checkout-btn:hover {
+            background: linear-gradient(135deg, #6b5344, #8b7355);
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(139, 115, 85, 0.4);
+        }
+
+        .checkout-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .success-message {
+            display: none;
+            background: linear-gradient(135deg, #4caf50, #45a049);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+            animation: slide-up 0.4s ease;
+            box-shadow: 0 8px 25px rgba(76, 175, 80, 0.3);
+            font-weight: 600;
+        }
+
+        .success-message.active {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .success-message i {
+            font-size: 1.5rem;
+        }
+
+        footer {
+            background: linear-gradient(135deg, #1a1a1a, #2c2c2c);
+            color: #999;
+            padding: 4rem 3rem;
+            text-align: center;
+            animation: slide-up 1s ease-out;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: #999;
+            text-decoration: none;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            position: relative;
+            padding: 0.5rem 0;
+        }
+
+        .footer-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #8b7355, #d4af37);
+            transition: width 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: #8b7355;
+        }
+
+        .footer-links a:hover::after {
+            width: 100%;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid #333;
+            padding-top: 2rem;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .cart-icon svg {
+            width: 26px;
+            height: 26px;
+            stroke: #2c2c2c;
+            stroke-width: 1.5;
+            fill: none;
+            transition: all 0.3s ease;
+        }
+
+        .cart-header:hover svg {
+            stroke: #8b7355;
+            filter: drop-shadow(0 0 10px rgba(139, 115, 85, 0.5));
+        }
+
+        @media (max-width: 1024px) {
+            .header-content {
+                padding: 1.25rem 2rem;
+            }
+
+            .hero-content {
+                padding: 2rem;
+                gap: 3rem;
+            }
+
+            .book-cover {
+                max-width: 320px;
+            }
+
+            .cart-page {
+                padding: 2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            nav {
+                position: fixed;
+                top: 85px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 85px);
+                background: rgba(255, 255, 255, 0.98);
+                backdrop-filter: blur(15px);
+                flex-direction: column;
+                justify-content: flex-start;
+                padding: 3rem 2rem;
+                gap: 2rem;
+                transition: left 0.4s ease;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            }
+
+            nav.active {
+                left: 0;
+            }
+
+            nav a, nav button {
+                font-size: 1.3rem;
+                width: 100%;
+                text-align: center;
+            }
+
+            .hero-content {
+                grid-template-columns: 1fr;
+                gap: 2.5rem;
+                padding: 2rem 1.5rem;
+            }
+
+            .book-showcase {
+                order: -1;
+            }
+
+            .book-title {
+                font-size: clamp(2.2rem, 6vw, 3.5rem);
+            }
+
+            .book-tagline {
+                font-size: 1.1rem;
+            }
+
+            .book-description {
+                font-size: 0.95rem;
+            }
+
+            .book-price {
+                font-size: 1.8rem;
+            }
+
+            .header-content {
+                padding: 1rem 1.5rem;
+            }
+
+            .logo {
+                font-size: 1.5rem;
+                letter-spacing: 2px;
+            }
+
+            .accent-shapes {
+                display: none;
+            }
+
+            .payment-options {
+                grid-template-columns: 1fr;
+            }
+
+            .cart-item {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+                padding: 1.5rem;
+            }
+
+            .cart-item-image {
+                width: 100%;
+                height: 220px;
+                margin: 0 auto;
+            }
+
+            .cart-item-actions {
+                flex-direction: row;
+                justify-content: space-between;
+                width: 100%;
+            }
+
+            .button-group {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .buy-button, .add-to-cart-btn {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .modal-content {
+                padding: 2rem 1.5rem;
+                border-radius: 16px;
+            }
+
+            .modal-header h2 {
+                font-size: 1.6rem;
+            }
+
+            .cart-page {
+                padding: 1.5rem;
+            }
+
+            .cart-summary {
+                padding: 2rem 1.5rem;
+            }
+
+            footer {
+                padding: 3rem 1.5rem;
+            }
+
+            .footer-links {
+                gap: 1.5rem;
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header-content {
+                padding: 1rem;
+            }
+
+            .logo {
+                font-size: 1.3rem;
+                letter-spacing: 1.5px;
+            }
+
+            .cart-header {
+                padding: 0.5rem;
+            }
+
+            .hero-content {
+                padding: 1.5rem 1rem;
+                gap: 2rem;
+            }
+
+            .book-cover {
+                max-width: 280px;
+            }
+
+            .book-title {
+                font-size: clamp(2rem, 8vw, 3rem);
+            }
+
+            .book-tagline {
+                font-size: 1rem;
+            }
+
+            .book-description {
+                font-size: 0.9rem;
+                line-height: 1.7;
+            }
+
+            .book-price {
+                font-size: 1.6rem;
+            }
+
+            .buy-button, .add-to-cart-btn {
+                padding: 1rem 2rem;
+                font-size: 0.95rem;
+            }
+
+            .modal-content {
+                width: 95%;
+                padding: 1.5rem;
+                max-height: 85vh;
+            }
+
+            .modal-header {
+                margin-bottom: 1.5rem;
+                padding-bottom: 1rem;
+            }
+
+            .modal-header h2 {
+                font-size: 1.4rem;
+            }
+
+            .form-group {
+                margin-bottom: 1.5rem;
+            }
+
+            .form-group input, .form-group select {
+                padding: 0.85rem;
+                font-size: 0.95rem;
+            }
+
+            .payment-option {
+                padding: 1.25rem 0.75rem;
+            }
+
+            .payment-option i {
+                font-size: 1.5rem;
+            }
+
+            .cart-page {
+                padding: 1rem;
+            }
+
+            .cart-item {
+                padding: 1.25rem;
+            }
+
+            .cart-item-details h3 {
+                font-size: 1.3rem;
+            }
+
+            .cart-summary {
+                padding: 1.5rem;
+            }
+
+            .summary-row {
+                font-size: 0.95rem;
+            }
+
+            .summary-row.total {
+                font-size: 1.4rem;
+            }
+
+            .checkout-btn {
+                padding: 1rem 2rem;
+                font-size: 1rem;
+            }
+
+            footer {
+                padding: 2.5rem 1rem;
+            }
+
+            .footer-links a {
+                font-size: 0.9rem;
+            }
+
+            .footer-bottom {
+                font-size: 0.8rem;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .logo {
+                font-size: 1.1rem;
+            }
+
+            .book-title {
+                font-size: clamp(1.8rem, 9vw, 2.5rem);
+            }
+
+            .book-tagline {
+                font-size: 0.95rem;
+            }
+
+            .button-group {
+                gap: 0.75rem;
+            }
+
+            .buy-button, .add-to-cart-btn {
+                padding: 0.9rem 1.5rem;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <a href="#" class="logo" onclick="goHome()">KAZAK</a>
+            <button class="mobile-menu-btn" onclick="toggleMenu()">
+                <i class="fas fa-bars"></i>
+            </button>
+            <nav id="mainNav">
+                <a href="#" onclick="goHome(); closeMenu()">Home</a>
+                <a href="#" onclick="openAboutModal(); closeMenu()">About</a>
+                <a href="#" onclick="openContactModal(); closeMenu()">Contact</a>
+            </nav>
+            <div class="cart-header" onclick="goToCart(); closeMenu()">
+                <svg viewBox="0 0 24 24">
+                    <path d="M9 2L6 6H3v2h1.04L6.5 20h11L18.96 8H20V6h-3L15 2H9M9 4h6v2H9V4M8 8h8l1.5 12h-11L8 8z"/>
+                </svg>
+                <span class="cart-badge" id="cartCount">0</span>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero" id="home">
+            <div class="accent-shapes accent-1"></div>
+            <div class="accent-shapes accent-2"></div>
+            <div class="hero-background">
+                <video autoplay muted loop playsinline>
+                    <source src="https://books.buckjones.net/images/Kazak-vid.mp4" type="video/mp4">
+                </video>
+            </div>
+            <div class="hero-content">
+                <div class="book-showcase">
+                    <div class="book-showcase-inner">
+                        <img
+                            src="https://images.unsplash.com/photo-1507842217343-583f20270319?w=500&q=80"
+                            alt="I AM KAZAK book cover"
+                            class="book-cover"
+                        >
+                    </div>
+                </div>
+                <div class="book-info">
+                    <h1 class="book-title">I AM KAZAK</h1>
+                    <p class="book-tagline">A Journey Through Identity and Discovery</p>
+                    <p class="book-description">
+                        Immerse yourself in a transformative narrative that explores the depths of self-discovery and cultural identity. I AM KAZAK is a masterpiece of contemporary literature that challenges perceptions and inspires reflection. Written with elegant prose and profound insight, this book invites readers into a world of meaning and wonder.
+                    </p>
+                    <p class="book-price">$24.99</p>
+                    <div class="button-group">
+                        <button class="buy-button" onclick="openCheckoutModal()">
+                            <i class="fas fa-shopping-bag"></i> Buy Now
+                        </button>
+                        <button class="add-to-cart-btn" onclick="addToCart()">
+                            <i class="fas fa-cart-plus"></i> Add to Cart
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="cart-page" id="cartPage">
+            <div class="success-message" id="successMessage">
+                <i class="fas fa-check-circle"></i> 
+                <span>Order placed successfully! Check your email for confirmation.</span>
+            </div>
+            <h2 style="font-family: 'Cormorant Garamond', serif; font-size: 2.5rem; margin-bottom: 2rem; color: #1a1a1a;">Shopping Cart</h2>
+            <div class="cart-items" id="cartItems">
+                <div class="empty-cart">
+                    <i class="fas fa-inbox"></i>
+                    <p>Your cart is empty</p>
+                    <button class="buy-button" onclick="goHome()">Continue Shopping</button>
+                </div>
+            </div>
+            <div id="cartSummarySection"></div>
+        </section>
+    </main>
+
+    <div id="checkoutModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Checkout</h2>
+                <button class="close-btn" onclick="closeCheckoutModal()">&times;</button>
+            </div>
+
+            <form id="checkoutForm" onsubmit="handleCheckout(event)">
+                <div class="radio-group">
+                    <div class="radio-option">
+                        <input type="radio" id="guest" name="userType" value="guest" checked onclick="toggleUserType('guest')">
+                        <label for="guest">Guest Checkout</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="account" name="userType" value="account" onclick="toggleUserType('account')">
+                        <label for="account">Create Account</label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="fullName">Full Name *</label>
+                    <input type="text" id="fullName" name="fullName" required placeholder="Enter your full name">
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email Address *</label>
+                    <input type="email" id="email" name="email" required placeholder="your@email.com">
+                </div>
+
+                <div id="passwordField" class="form-group" style="display: none;">
+                    <label for="password">Password *</label>
+                    <input type="password" id="password" name="password" placeholder="Create a password">
+                </div>
+
+                <div class="form-group">
+                    <label for="address">Shipping Address *</label>
+                    <input type="text" id="address" name="address" required placeholder="Street address">
+                </div>
+
+                <div class="form-group">
+                    <label for="city">City *</label>
+                    <input type="text" id="city" name="city" required placeholder="City">
+                </div>
+
+                <div class="form-group">
+                    <label for="zip">Zip Code *</label>
+                    <input type="text" id="zip" name="zip" required placeholder="Postal code">
+                </div>
+
+                <div class="form-group">
+                    <label for="country">Country *</label>
+                    <select id="country" name="country" required>
+                        <option value="">Select Country</option>
+                        <option value="US">United States</option>
+                        <option value="CA">Canada</option>
+                        <option value="UK">United Kingdom</option>
+                        <option value="AU">Australia</option>
+                        <option value="PK">Pakistan</option>
+                    </select>
+                </div>
+
+                <label style="display: block; margin-bottom: 1rem; font-weight: 600; color: #2c2c2c;">Payment Method *</label>
+                <div class="payment-options">
+                    <div class="payment-option" onclick="selectPayment('credit')">
+                        <i class="fas fa-credit-card"></i>
+                        Credit Card
+                    </div>
+                    <div class="payment-option" onclick="selectPayment('paypal')">
+                        <i class="fab fa-paypal"></i>
+                        PayPal
+                    </div>
+                    <div class="payment-option" onclick="selectPayment('bank')">
+                        <i class="fas fa-university"></i>
+                        Bank Transfer
+                    </div>
+                </div>
+
+                <button type="submit" class="checkout-btn">Complete Purchase</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="aboutModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>About I AM KAZAK</h2>
+                <button class="close-btn" onclick="closeAboutModal()">&times;</button>
+            </div>
+            <p style="margin-bottom: 1rem; line-height: 1.8; color: #555;">I AM KAZAK is a groundbreaking work of literature that delves into themes of identity, culture, and self-discovery. Written by an emerging voice in contemporary fiction, this book offers readers a profound and immersive experience that challenges conventional narratives and inspires deep reflection.</p>
+            <p style="line-height: 1.8; color: #555;">Through elegant prose and compelling storytelling, I AM KAZAK invites readers to explore the complexities of human experience and the transformative power of embracing one's true self.</p>
+        </div>
+    </div>
+
+    <div id="contactModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Contact Us</h2>
+                <button class="close-btn" onclick="closeContactModal()">&times;</button>
+            </div>
+            <p style="margin-bottom: 1rem; line-height: 1.8; color: #555;">For inquiries about I AM KAZAK or bulk orders, please email us at <strong style="color: #8b7355;">info@iamkazak.com</strong></p>
+            <p style="line-height: 1.8; color: #555;">Follow us on social media for updates and behind-the-scenes content.</p>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+                <a href="#">Shipping Info</a>
+                <a href="#">Returns</a>
+                <a href="#">Contact</a>
+            </div>
+            <div class="footer-bottom">
+                &copy; 2024 I AM KAZAK. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        let cart = [];
+        let cartCount = 0;
+
+        function toggleMenu() {
+            const nav = document.getElementById('mainNav');
+            const btn = document.querySelector('.mobile-menu-btn i');
+            nav.classList.toggle('active');
+            btn.classList.toggle('fa-bars');
+            btn.classList.toggle('fa-times');
+        }
+
+        function closeMenu() {
+            const nav = document.getElementById('mainNav');
+            const btn = document.querySelector('.mobile-menu-btn i');
+            nav.classList.remove('active');
+            btn.classList.remove('fa-times');
+            btn.classList.add('fa-bars');
+        }
+
+        function addToCart() {
+            const item = {
+                title: 'I AM KAZAK',
+                price: 24.99,
+                quantity: 1,
+                image: 'https://images.unsplash.com/photo-1507842217343-583f20270319?w=500&q=80'
+            };
+            cart.push(item);
+            cartCount++;
+            updateCart();
+            showNotification('Item added to cart!');
+        }
+
+        function showNotification(message) {
+            const notification = document.createElement('div');
+            notification.style.cssText = 'position: fixed; top: 100px; right: 20px; background: linear-gradient(135deg, #8b7355, #a68968); color: white; padding: 1rem 2rem; border-radius: 50px; box-shadow: 0 10px 30px rgba(139, 115, 85, 0.4); z-index: 3000; animation: slide-up 0.4s ease;';
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            setTimeout(() => {
+                notification.style.animation = 'fadeOut 0.4s ease';
+                setTimeout(() => notification.remove(), 400);
+            }, 2500);
+        }
+
+        function updateCart() {
+            document.getElementById('cartCount').textContent = cartCount;
+            if (cart.length > 0) {
+                document.getElementById('cartItems').innerHTML = cart.map((item, index) => `
+                    <div class="cart-item">
+                        <img src="${item.image}" alt="Book cover" class="cart-item-image">
+                        <div class="cart-item-details">
+                            <h3>${item.title}</h3>
+                            <p>${item.price.toFixed(2)}</p>
+                        </div>
+                        <div class="cart-item-actions">
+                            <div class="quantity-control">
+                                <button onclick="changeQuantity(${index}, -1)">-</button>
+                                <span>${item.quantity}</span>
+                                <button onclick="changeQuantity(${index}, 1)">+</button>
+                            </div>
+                            <button class="remove-btn" onclick="removeItem(${index})">Remove</button>
+                        </div>
+                    </div>
+                `).join('');
+                updateCartSummary();
+            } else {
+                document.getElementById('cartItems').innerHTML = '<div class="empty-cart"><i class="fas fa-inbox"></i><p>Your cart is empty</p><button class="buy-button" onclick="goHome()">Continue Shopping</button></div>';
+                document.getElementById('cartSummarySection').innerHTML = '';
+            }
+        }
+
+        function changeQuantity(index, delta) {
+            cart[index].quantity += delta;
+            if (cart[index].quantity <= 0) {
+                removeItem(index);
+            } else {
+                updateCart();
+            }
+        }
+
+        function removeItem(index) {
+            cart.splice(index, 1);
+            cartCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+            updateCart();
+        }
+
+        function updateCartSummary() {
+            const subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+            const shipping = 5.99;
+            const total = subtotal + shipping;
+            document.getElementById('cartSummarySection').innerHTML = `
+                <div class="cart-summary">
+                    <div class="summary-row">
+                        <span>Subtotal:</span>
+                        <span>${subtotal.toFixed(2)}</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Shipping:</span>
+                        <span>${shipping.toFixed(2)}</span>
+                    </div>
+                    <div class="summary-row total">
+                        <span>Total:</span>
+                        <span>${total.toFixed(2)}</span>
+                    </div>
+                    <button class="checkout-btn" onclick="openCheckoutModal()">Proceed to Checkout</button>
+                </div>
+            `;
+        }
+
+        function goToCart() {
+            document.getElementById('home').style.display = 'none';
+            document.getElementById('cartPage').classList.add('active');
+            window.scrollTo(0, 0);
+        }
+
+        function goHome() {
+            document.getElementById('home').style.display = 'block';
+            document.getElementById('cartPage').classList.remove('active');
+            window.scrollTo(0, 0);
+        }
+
+        function openCheckoutModal() {
+            document.getElementById('checkoutModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeCheckoutModal() {
+            document.getElementById('checkoutModal').classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        function openAboutModal() {
+            document.getElementById('aboutModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeAboutModal() {
+            document.getElementById('aboutModal').classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        function openContactModal() {
+            document.getElementById('contactModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeContactModal() {
+            document.getElementById('contactModal').classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        function toggleUserType(type) {
+            const passwordField = document.getElementById('passwordField');
+            const passwordInput = document.getElementById('password');
+            if (type === 'account') {
+                passwordField.style.display = 'block';
+                passwordInput.required = true;
+            } else {
+                passwordField.style.display = 'none';
+                passwordInput.required = false;
+            }
+        }
+
+        function selectPayment(method) {
+            document.querySelectorAll('.payment-option').forEach(opt => opt.classList.remove('active'));
+            event.target.closest('.payment-option').classList.add('active');
+        }
+
+        function handleCheckout(event) {
+            event.preventDefault();
+            closeCheckoutModal();
+            showNotification('Processing your order...');
+            setTimeout(() => {
+                document.getElementById('successMessage').classList.add('active');
+                cart = [];
+                cartCount = 0;
+                updateCart();
+                setTimeout(() => {
+                    document.getElementById('successMessage').classList.remove('active');
+                }, 5000);
+            }, 1500);
+        }
+
+        document.querySelectorAll('.modal').forEach(modal => {
+            modal.addEventListener('click', function(e) {
+                if (e.target === this) {
+                    this.classList.remove('active');
+                    document.body.style.overflow = 'auto';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
